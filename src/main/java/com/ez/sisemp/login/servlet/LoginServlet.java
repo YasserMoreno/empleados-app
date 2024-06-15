@@ -27,6 +27,7 @@ public class LoginServlet extends HttpServlet {
         response.sendRedirect(LOGIN_JSP);
     }
 
+    /*
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         UsuarioBusiness business = new UsuarioBusiness();
@@ -40,6 +41,29 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(Routes.EMPLEADO.getRoute());
             }
         }catch (UserOrPassIncorrectException e){
+            request.setAttribute("msj", ERROR_INCORRECT_CREDENTIALS);
+            request.setAttribute("detail", e.getMessage());
+            request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
+        }catch (Exception e) {
+            throw new ServletException(ERROR_SERVER, e);
+        }
+    }
+    */
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        UsuarioBusiness usuarioBusiness = new UsuarioBusiness();
+
+        try{
+            Usuario usuario = usuarioBusiness.loginJPA(request.getParameter("username"), request.getParameter("password"));
+            HttpSession session = request.getSession();
+            session.setAttribute("user", usuario);
+            if(usuario.rolId() == Roles.ADMIN.getId()){
+                response.sendRedirect(Routes.ADMIN.getRoute());
+            } else {
+                response.sendRedirect(Routes.EMPLEADO.getRoute());
+            }
+        } catch (UserOrPassIncorrectException e){
             request.setAttribute("msj", ERROR_INCORRECT_CREDENTIALS);
             request.setAttribute("detail", e.getMessage());
             request.getRequestDispatcher(LOGIN_JSP).forward(request, response);
