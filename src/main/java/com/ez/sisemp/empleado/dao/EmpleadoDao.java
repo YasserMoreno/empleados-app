@@ -3,16 +3,13 @@ package com.ez.sisemp.empleado.dao;
 import com.ez.sisemp.empleado.entity.EmpleadoEntity;
 import com.ez.sisemp.empleado.model.Empleado;
 import com.ez.sisemp.shared.config.MySQLConnection;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmpleadoDao{
@@ -34,16 +31,25 @@ public class EmpleadoDao{
         e.activo = 1;
     """;
 
+    //JPQL
     private static final String SQL_GET_ALL_EMPLEADOS_JPQL = """
             Select  e
             from EmpleadoEntity e
             """;
+
+    private static String SQL_SEARCH_EMPLEADO = "SELECT e FROM EmpleadoEntity e WHERE id = :id";
+
+    //JDBC
 
     private static String SQL_UPDATE_EMPLEADO = "UPDATE empleado SET nombres = ?, apellido_pat = ?, apellido_mat = ?, id_departamento = ?, correo = ?, salario = ? WHERE id = ?;";
     private static String SQL_DELETE_EMPLEADO = "UPDATE empleado set activo=0 WHERE id = ?;";
     private static String SQL_INSERT_EMPLEADO = "INSERT INTO empleado (codigo_empleado, nombres, apellido_pat, apellido_mat, id_departamento, correo, fecha_nacimiento, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private static String SQL_GET_NEW_EMPLEADO_CODE = "SELECT CONCAT('EMP', LPAD(MAX(CAST(SUBSTRING(codigo_empleado, 4) AS UNSIGNED)) + 1, 4, '0')) AS next_emp_code FROM empleado;";
 
+
+    //JDBC
+
+    /*
     public List<Empleado> obtenerEmpleados() throws SQLException, ClassNotFoundException {
         List<Empleado> empleados = new ArrayList<>();
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
@@ -54,18 +60,19 @@ public class EmpleadoDao{
         }
         return empleados;
     }
-
-
-    public List<EmpleadoEntity> obtenerEmpleadosJPA () {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        var empleados = entityManager.createQuery(SQL_GET_ALL_EMPLEADOS_JPQL, EmpleadoEntity.class).getResultList();
-        return empleados;
-    }
-
+    */
 
     public void editarEmpleado (Empleado empleado) throws SQLException, ClassNotFoundException {
         //TODO: Implementar la edición de un empleado
+        PreparedStatement preparedStatement = MySQLConnection.getConnection().prepareStatement(SQL_UPDATE_EMPLEADO);
+        preparedStatement.setString(1, empleado.nombres());
+        preparedStatement.setString(2, empleado.apellidoPat());
+        preparedStatement.setString(3, empleado.apellidoMat());
+        preparedStatement.setInt(4, empleado.idDepartamento());
+        preparedStatement.setString(5, empleado.correo());
+        preparedStatement.setDouble(6, empleado.salario());
+        preparedStatement.setString(7, empleado.codigoEmpleado());
+        preparedStatement.executeUpdate();
     }
 
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
@@ -100,5 +107,35 @@ public class EmpleadoDao{
                 resultSet.getInt("edad"),
                 resultSet.getDouble("salario")
         );
+    }
+
+    //JPA
+
+    public List<EmpleadoEntity> obtenerEmpleadosJPA() throws PersistenceException {
+
+        EntityManagerFactory entityManagerFactory;
+        EntityManager entityManager = null;
+        List<EmpleadoEntity> empleados;
+
+        try{
+            entityManagerFactory= Persistence.createEntityManagerFactory("devUnit");
+            entityManager = entityManagerFactory.createEntityManager();
+            empleados = entityManager.createQuery(SQL_GET_ALL_EMPLEADOS_JPQL, EmpleadoEntity.class).getResultList();
+        } finally {
+            entityManager.close();
+        }
+        return empleados;
+
+    }
+
+    public EmpleadoEntity buscarEmpleadoJPA(Long id) throws PersistenceException {
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try{
+            return entityManager.find(EmpleadoEntity.class,id);
+        }finally {
+            entityManager.close();
+        }
     }
 }

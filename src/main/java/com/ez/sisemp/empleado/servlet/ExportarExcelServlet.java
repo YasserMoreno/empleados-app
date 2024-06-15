@@ -22,7 +22,7 @@ public class ExportarExcelServlet extends HttpServlet {
         }
         EmpleadoBusiness business = new EmpleadoBusiness();
         try {
-            List<Empleado> empleados = business.obtenerEmpleados();
+            List<Empleado> empleados = business.obtenerEmpleadosJpa();
             ExcelExporter.createExcelFile(Empleado.getHeaders(), empleados, "empleados", res);
         } catch (Exception e) {
             throw new ServletException(e);

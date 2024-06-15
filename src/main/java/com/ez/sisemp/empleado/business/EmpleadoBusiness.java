@@ -38,10 +38,16 @@ public class EmpleadoBusiness {
         }
     }
 
+    public void editarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
+        empleadoDao.editarEmpleado(empleado);
+    }
+
+
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
         empleadoDao.eliminarEmpleado(id);
     }
 
+    /*
     public List<Empleado> obtenerEmpleados() throws SQLException, ClassNotFoundException {
         var empleados = empleadoDao.obtenerEmpleados();
         if(empleados.isEmpty()){
@@ -49,6 +55,7 @@ public class EmpleadoBusiness {
         }
         return empleadoDao.obtenerEmpleados();
     }
+    */
 
     public List<Empleado> obtenerEmpleadosJpa() {
         var empleados = empleadoDao.obtenerEmpleadosJPA();
@@ -63,6 +70,15 @@ public class EmpleadoBusiness {
                 }
         );
         return empleadosToReturn;
+    }
+
+    public Empleado buscarEmpleadoPorIdJPA(Long id) {
+        var empleadoEntity = empleadoDao.buscarEmpleadoJPA(id);
+        if(empleadoEntity == null){
+            return null;
+        }
+        Empleado empleado = mapToRecord(empleadoEntity);
+        return empleado;
     }
 
     private Empleado mapToRecord(EmpleadoEntity e) {

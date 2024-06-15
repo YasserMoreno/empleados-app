@@ -13,7 +13,7 @@
             <!-- JDBC connection properties -->
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sisemp"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value="develop2024"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
 
             <!-- Schema generation -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
