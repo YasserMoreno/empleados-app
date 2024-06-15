@@ -64,15 +64,7 @@ public class EmpleadoDao{
 
     public void editarEmpleado (Empleado empleado) throws SQLException, ClassNotFoundException {
         //TODO: Implementar la edición de un empleado
-        PreparedStatement preparedStatement = MySQLConnection.getConnection().prepareStatement(SQL_UPDATE_EMPLEADO);
-        preparedStatement.setString(1, empleado.nombres());
-        preparedStatement.setString(2, empleado.apellidoPat());
-        preparedStatement.setString(3, empleado.apellidoMat());
-        preparedStatement.setInt(4, empleado.idDepartamento());
-        preparedStatement.setString(5, empleado.correo());
-        preparedStatement.setDouble(6, empleado.salario());
-        preparedStatement.setString(7, empleado.codigoEmpleado());
-        preparedStatement.executeUpdate();
+
     }
 
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
@@ -137,5 +129,21 @@ public class EmpleadoDao{
         }finally {
             entityManager.close();
         }
+    }
+
+    public void editarEmpleadoJPA (EmpleadoEntity empleado) throws SQLException, ClassNotFoundException {
+        //TODO: Implementar la edición de un empleado
+
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.merge(empleado);
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
+
     }
 }

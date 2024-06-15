@@ -37,7 +37,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="empleado">
+            <a class="nav-link" href="/empleado">
                 <span>Dashboard</span></a>
         </li>
         <!-- Divider -->
@@ -121,9 +121,19 @@
                                                 <label for="apellidoMat">Apellido Materno</label>
                                                 <input type="text" name="apellidoMat" class="form-control" id="apellidoMat"  value="${empleado.apellidoMat()}">
                                             </div>
-                                            <div class="form-group">
+                                            <!--<div class="form-group">
                                                 <label for="idDepartamento">Departamento</label>
                                                 <input type="text" name="idDepartamento" class="form-control" id="idDepartamento"  value="${empleado.idDepartamento()}">
+                                            </div>-->
+                                            <div class="form-group">
+                                                <label for="idDepartamento">Departamento:</label>
+                                                <select name="idDepartamento" class="form-control" id="idDepartamento">
+                                                    <c:forEach var="departamento" items="${departamentos}">
+                                                        <option value="${departamento.id()}" <c:if test="${departamento.id() == empleado.idDepartamento()}">selected</c:if>>
+                                                                ${departamento.nombre()}
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="correo">Correo</label>

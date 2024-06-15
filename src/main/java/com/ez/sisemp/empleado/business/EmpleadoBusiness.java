@@ -28,6 +28,9 @@ public class EmpleadoBusiness {
         this.parametroDao = new ParametroDao();
     }
 
+
+    //JDBC
+
     public void registrarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
         empleado = new Empleado(generarCodigoEmpleado(), empleado.nombres(), empleado.apellidoPat(), empleado.apellidoMat(), empleado.idDepartamento(), empleado.correo(), empleado.salario(), empleado.fechaNacimiento());
         validarCampos(empleado);
@@ -57,6 +60,8 @@ public class EmpleadoBusiness {
     }
     */
 
+    //JPA
+
     public List<Empleado> obtenerEmpleadosJpa() {
         var empleados = empleadoDao.obtenerEmpleadosJPA();
         if(empleados.isEmpty()){
@@ -80,6 +85,23 @@ public class EmpleadoBusiness {
         Empleado empleado = mapToRecord(empleadoEntity);
         return empleado;
     }
+
+    public void editarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
+        EmpleadoEntity empleadoEntity = new EmpleadoEntity();
+        empleadoEntity.setId(Long.parseLong(String.valueOf(empleado.id())));
+        empleadoEntity.setCodigoEmpleado(empleado.codigoEmpleado());
+        empleadoEntity.setNombres(empleado.nombres());
+        empleadoEntity.setApellidoPat(empleado.apellidoPat());
+        empleadoEntity.setApellidoMat(empleado.apellidoMat());
+        empleadoEntity.setIdDepartamento(empleado.idDepartamento());
+        empleadoEntity.setCorreo(empleado.correo());
+        empleadoEntity.setSalario(empleado.salario());
+        empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
+        empleadoDao.editarEmpleadoJPA(empleadoEntity);
+    }
+
+
+    //Funciones Adicionales
 
     private Empleado mapToRecord(EmpleadoEntity e) {
         var departamento = parametroDao.getById(e.getIdDepartamento());

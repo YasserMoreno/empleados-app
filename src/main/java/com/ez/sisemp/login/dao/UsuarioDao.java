@@ -9,6 +9,9 @@ import java.sql.SQLException;
 
 public class UsuarioDao {
     private static final String SQL_GET_USER = "SELECT * FROM usuario WHERE nombre_usuario = ? AND contrasena = ?";
+
+    //JDBC
+
     public Usuario login(String username, String password) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
                                                 .prepareStatement(SQL_GET_USER);
@@ -32,4 +35,7 @@ public class UsuarioDao {
                 resultSet.getInt("id_rol")
         );
     }
+
+    //JPA
+
 }
