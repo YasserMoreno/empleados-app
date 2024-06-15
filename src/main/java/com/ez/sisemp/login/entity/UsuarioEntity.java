@@ -13,6 +13,7 @@ public class UsuarioEntity {
     @Column(name = "nombre_usuario")
     String nombreUsuario;
     String contrasena;
+    Integer active;
     @Column(name = "primer_nombre")
     String primerNombre;
     @Column(name = "apellido_pat")
@@ -21,6 +22,14 @@ public class UsuarioEntity {
     String fotoPerfil;
     @Column(name = "id_rol")
     Integer idRol;
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
 
     public Integer getId() {
         return id;

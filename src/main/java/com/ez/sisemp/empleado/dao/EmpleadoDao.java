@@ -42,10 +42,9 @@ public class EmpleadoDao{
     private static final String SQL_GET_ALL_EMPLEADOS_JPQL = """
             Select  e
             from EmpleadoEntity e
+            where e.activo = 1
             """;
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(EmpleadoDao.class);
-
-    private static String SQL_SEARCH_EMPLEADO = "SELECT e FROM EmpleadoEntity e WHERE id = :id";
 
     //JDBC
 
@@ -55,8 +54,6 @@ public class EmpleadoDao{
     private static String SQL_GET_NEW_EMPLEADO_CODE = "SELECT CONCAT('EMP', LPAD(MAX(CAST(SUBSTRING(codigo_empleado, 4) AS UNSIGNED)) + 1, 4, '0')) AS next_emp_code FROM empleado;";
 
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
-
-    private static final Logger logger = Logger.getLogger(EmpleadoDao.class.getName());
 
 
     //JDBC
@@ -72,14 +69,10 @@ public class EmpleadoDao{
         }
         return empleados;
     }
-    */
 
-    /*
     public void editarEmpleado (Empleado empleado) throws SQLException, ClassNotFoundException {
-        //TODO: Implementar la edición de un empleado
 
     }
-    */
 
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
@@ -114,18 +107,20 @@ public class EmpleadoDao{
                 resultSet.getDouble("salario")
         );
     }
+    */
+
 
     //JPA
 
     public List<EmpleadoEntity> obtenerEmpleadosJPA() throws PersistenceException {
 
-        EntityManager entityManager = null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<EmpleadoEntity> empleados;
 
         try{
-            entityManagerFactory= Persistence.createEntityManagerFactory("devUnit");
-            entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
             empleados = entityManager.createQuery(SQL_GET_ALL_EMPLEADOS_JPQL, EmpleadoEntity.class).getResultList();
+            entityManager.getTransaction().commit();
         } finally {
             entityManager.close();
         }
@@ -135,10 +130,13 @@ public class EmpleadoDao{
 
     public EmpleadoEntity buscarEmpleadoJPA(Long id) throws PersistenceException {
 
-        entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         try{
-            return entityManager.find(EmpleadoEntity.class,id);
+            entityManager.getTransaction().begin();
+            var empleado = entityManager.find(EmpleadoEntity.class,id);
+            entityManager.getTransaction().commit();
+            return empleado;
         }finally {
             entityManager.close();
         }
@@ -150,26 +148,15 @@ public class EmpleadoDao{
 
         try{
             entityManager.getTransaction().begin();
-            logger.info("Empleado a registrar" + empleado);
-
-            Query query = entityManager.createNativeQuery(SQL_GET_NEW_EMPLEADO_CODE);
-            String nuevoCodigo = (String) query.getSingleResult();
-            empleado.setCodigoEmpleado(nuevoCodigo);
-
             entityManager.persist(empleado);
             entityManager.getTransaction().commit();
 
-            logger.info("Empleado registrado correctamente: " + empleado);
-        } catch (Exception e){
-            logger.log(Level.SEVERE, "Error registrando al empleado", e);
-            System.out.println("Error registrando al empleado:" + e);
         } finally {
             entityManager.close();
         }
     }
 
     public void editarEmpleadoJPA (EmpleadoEntity empleado) throws SQLException, ClassNotFoundException {
-        //TODO: Implementar la edición de un empleado
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
@@ -188,7 +175,9 @@ public class EmpleadoDao{
 
         try{
             entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.find(EmpleadoEntity.class, id));
+            var empleado = entityManager.find(EmpleadoEntity.class, id);
+            empleado.setActivo(0);
+            entityManager.merge(empleado);
             entityManager.getTransaction().commit();
         } finally {
             entityManager.close();

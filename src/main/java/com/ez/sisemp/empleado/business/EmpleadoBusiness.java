@@ -12,7 +12,6 @@ import com.ez.sisemp.shared.utils.EdadUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +30,7 @@ public class EmpleadoBusiness {
 
     //JDBC
 
+    /*
     public void registrarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
         empleado = new Empleado(generarCodigoEmpleado(), empleado.nombres(), empleado.apellidoPat(), empleado.apellidoMat(), empleado.idDepartamento(), empleado.correo(), empleado.salario(), empleado.fechaNacimiento());
         validarCampos(empleado);
@@ -41,17 +41,18 @@ public class EmpleadoBusiness {
         }
     }
 
-    /*
+
     public void editarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
         empleadoDao.editarEmpleado(empleado);
     }
-    */
+
+
 
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
         empleadoDao.eliminarEmpleado(id);
     }
 
-    /*
+
     public List<Empleado> obtenerEmpleados() throws SQLException, ClassNotFoundException {
         var empleados = empleadoDao.obtenerEmpleados();
         if(empleados.isEmpty()){
@@ -90,7 +91,7 @@ public class EmpleadoBusiness {
     public void registrarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
         EmpleadoEntity empleadoEntity = new EmpleadoEntity();
         //empleadoEntity.setId(Long.parseLong(String.valueOf(empleado.id())));
-        //empleadoEntity.setCodigoEmpleado(empleado.codigoEmpleado());
+        empleadoEntity.setCodigoEmpleado(generarCodigoEmpleado());
         empleadoEntity.setNombres(empleado.nombres());
         empleadoEntity.setApellidoPat(empleado.apellidoPat());
         empleadoEntity.setApellidoMat(empleado.apellidoMat());
@@ -98,16 +99,10 @@ public class EmpleadoBusiness {
         empleadoEntity.setCorreo(empleado.correo());
         empleadoEntity.setSalario(empleado.salario());
         empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
+        empleadoEntity.setActivo(1);
         empleadoDao.registrarEmpleadoJPA(empleadoEntity);
 
     }
-
-    public void eliminarEmpleadoJPA(Long id) throws SQLException, ClassNotFoundException {
-        empleadoDao.eliminarEmpleadoJPA(id);
-    }
-
-
-
 
     public void editarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
 
@@ -122,6 +117,10 @@ public class EmpleadoBusiness {
         empleadoEntity.setSalario(empleado.salario());
         empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
         empleadoDao.editarEmpleadoJPA(empleadoEntity);
+    }
+
+    public void eliminarEmpleadoJPA(Long id) throws SQLException, ClassNotFoundException {
+        empleadoDao.eliminarEmpleadoJPA(id);
     }
 
 

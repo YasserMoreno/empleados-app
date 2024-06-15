@@ -19,11 +19,11 @@
             </c:if>
             <div class="input-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="username" name="username" placeholder="Ingresa tu usuario">
+                <input type="text" id="username" name="username" placeholder="Ingresa tu usuario" required>
             </div>
             <div class="input-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña">
+                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
             </div>
             <button type="submit">Ingresar</button>
         </form>

@@ -17,8 +17,6 @@ import java.util.List;
 public class UsuarioDao {
     private static final String SQL_GET_USER = "SELECT * FROM usuario WHERE nombre_usuario = ? AND contrasena = ?";
     private static final String JPQL_GET_USER = "SELECT u FROM UsuarioEntity u WHERE u.nombreUsuario = :username AND u.contrasena = :password";
-
-
     //JDBC
 
     /*

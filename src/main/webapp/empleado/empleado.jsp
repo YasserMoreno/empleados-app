@@ -85,7 +85,7 @@
                             <img class="img-profile rounded-circle" src=${sessionScope.user.fotoPerfilBase64()} style="width:65" alt="profile photo">
                             <form action="empleado" method="post" style="display:inline;">
                                 <input type="hidden" name="action" value="logout">
-                                <input type="button" value="Cerrar Sesion" style="background:none;border:none;color:blue;">
+                                <input type="submit" value="Cerrar Sesión" style="background:none;border:none;color:blue;">
                             </form>
                         </a>
                         <!-- Dropdown - User Information -->
@@ -212,7 +212,7 @@
                                 <td>${empleado.salario()}</td>
                                 <td>
                                     <a href="empleado/editar?id=${empleado.id()}">Editar</a>
-                                    <form action="empleado" method="post" style="display:inline;">
+                                    <form action="empleado/eliminar" method="post" style="display:inline;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="${empleado.id()}">
                                         <input type="submit" value="Eliminar" style="background:none;border:none;color:blue;">

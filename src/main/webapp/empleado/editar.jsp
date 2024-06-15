@@ -44,9 +44,12 @@
         <hr class="sidebar-divider">
         <!-- Nav Item -->
         <li class="nav-item">
-            <form action ="/registrar" method="get">
+            <!--<form action ="/registrar" method="get">
                 <input type="submit" value="Registrar Empleado" style="background:none;border:none;color:white;font-size: 1rem;font-weight: 400;line-height: 1.5">
-            </form>
+            </form>-->
+            <a class="nav-link" href="/empleado/registrar" style="background:none;border:none;color:white;font-size: 1rem;font-weight: 400;line-height: 1.5">
+                <span>Registrar Empleado</span>
+            </a>
         </li>
         <li class="nav-item">
             <form action ="/bulk" method="post">
@@ -111,19 +114,19 @@
                                         <form action="editar" method="post">
                                             <div class="form-group">
                                                 <label for="nombres">Nombres</label>
-                                                <input type="text" name="nombres" class="form-control" id="nombres" value="${empleado.nombres()}" >
+                                                <input type="text" name="nombres" class="form-control" id="nombres" value="${empleado.nombres()}" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoPat">Apellido Paterno</label>
-                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat" value="${empleado.apellidoPat()}">
+                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat" value="${empleado.apellidoPat()}" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoMat">Apellido Materno</label>
-                                                <input type="text" name="apellidoMat" class="form-control" id="apellidoMat"  value="${empleado.apellidoMat()}">
+                                                <input type="text" name="apellidoMat" class="form-control" id="apellidoMat"  value="${empleado.apellidoMat()}" required>
                                             </div>
                                             <!--<div class="form-group">
                                                 <label for="idDepartamento">Departamento</label>
-                                                <input type="text" name="idDepartamento" class="form-control" id="idDepartamento"  value="${empleado.idDepartamento()}">
+                                                <input type="text" name="idDepartamento" class="form-control" id="idDepartamento"  value="">
                                             </div>-->
                                             <div class="form-group">
                                                 <label for="idDepartamento">Departamento:</label>
@@ -137,15 +140,15 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="correo">Correo</label>
-                                                <input type="email" name="correo" class="form-control" id="correo"  placeholder="Ingresa un correo valido" value="${empleado.correo()}">
+                                                <input type="email" name="correo" class="form-control" id="correo"  placeholder="Ingresa un correo valido" value="${empleado.correo()}" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="salario">Salario</label>
-                                                <input type="number" name="salario" class="form-control" id="salario" value=${empleado.salario()}>
+                                                <input type="number" name="salario" class="form-control" id="salario" required value=${empleado.salario()} >
                                             </div>
                                             <div class="form-group">
                                                 <label for="fechaNacimiento">Fecha Nacimiento:</label>
-                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" value=${empleado.fechaNacimiento()}>
+                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required value=${empleado.fechaNacimiento()}>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Editar</button>
                                         </form>

@@ -41,9 +41,12 @@
         <hr class="sidebar-divider">
         <!-- Nav Item -->
         <li class="nav-item">
-            <form action ="registrar" method="get">
+            <!--<form action ="registrar" method="get">
                 <input type="submit" value="Registrar Empleado" style="background:none;border:none;color:white;font-size: 1rem;font-weight: 400;line-height: 1.5">
-            </form>
+            </form>-->
+            <a class="nav-link" href="/empleado/registrar" style="background:none;border:none;color:white;font-size: 1rem;font-weight: 400;line-height: 1.5">
+                <span>Registrar Empleado</span>
+            </a>
         </li>
         <li class="nav-item">
             <form action ="bulk" method="post">
@@ -113,15 +116,15 @@
                                         <form action="registrar" method="post">
                                             <div class="form-group">
                                                 <label for="nombres">Nombres</label>
-                                                <input type="text" name="nombres" class="form-control" id="nombres"  >
+                                                <input type="text" name="nombres" class="form-control" id="nombres"  required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoPat">Apellido Paterno</label>
-                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat"  ">
+                                                <input type="text" name="apellidoPat" class="form-control" id="apellidoPat" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="apellidoMat">Apellido Materno</label>
-                                                <input type="text" name="apellidoMat" class="form-control" id="apellidoMat"  >
+                                                <input type="text" name="apellidoMat" class="form-control" id="apellidoMat" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="idDepartamento">Departamento</label>
@@ -133,15 +136,15 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="correo">Correo</label>
-                                                <input type="email" name="correo" class="form-control" id="correo"  placeholder="Ingresa un correo valido">
+                                                <input type="email" name="correo" class="form-control" id="correo"  placeholder="Ingresa un correo valido" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="salario">Salario</label>
-                                                <input type="number" name="salario" class="form-control" id="salario" >
+                                                <input type="number" name="salario" class="form-control" id="salario" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="fechaNacimiento">Fecha Nacimiento:</label>
-                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" >
+                                                <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Registrar</button>
                                         </form>
