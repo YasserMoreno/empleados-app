@@ -59,20 +59,20 @@ public class RegistrarEmpleadoServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            logger.info("Iniciando la creación del empleado desde la solicitud.");
+            //logger.info("Iniciando la creación del empleado desde la solicitud.");
             Empleado empleado = createEmpleadoFromRequestJPA(request);
             empleadoBusiness.registrarEmpleadoJPA(empleado);
             request.setAttribute("msj", "Empleado registrado correctamente");
             response.sendRedirect(Routes.EMPLEADO.getRoute());
-            logger.info("Empleado registrado correctamente y redirigido a la ruta: " + Routes.EMPLEADO.getRoute());
+            //logger.info("Empleado registrado correctamente y redirigido a la ruta: " + Routes.EMPLEADO.getRoute());
         } catch (ParseException e) {
-            logger.log(Level.SEVERE, "Error al parsear la solicitud: ", e);
+            //logger.log(Level.SEVERE, "Error al parsear la solicitud: ", e);
             handleParseException(request, response, e);
         } catch (EmailAlreadyInUseException e){
-            logger.log(Level.SEVERE, "El email ya está en uso: ", e);
+            //logger.log(Level.SEVERE, "El email ya está en uso: ", e);
             handleEmailAlreadyInUseException(request, response, e);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error inesperado al registrar el empleado: ", e);
+            //logger.log(Level.SEVERE, "Error inesperado al registrar el empleado: ", e);
             throw new ServletException(e);
         }
     }

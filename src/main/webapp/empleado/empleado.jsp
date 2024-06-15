@@ -142,7 +142,7 @@
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             Mayor salario</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">${dashboard.mayorSalario()}</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">S/ ${dashboard.mayorSalario()}</div>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@
                                 <td>${empleado.departamento()}</td>
                                 <td>${empleado.correo()}</td>
                                 <td>${empleado.edad()}</td>
-                                <td>${empleado.salario()}</td>
+                                <td>S/ ${empleado.salario()}</td>
                                 <td>
                                     <a href="empleado/editar?id=${empleado.id()}">Editar</a>
                                     <form action="empleado/eliminar" method="post" style="display:inline;">

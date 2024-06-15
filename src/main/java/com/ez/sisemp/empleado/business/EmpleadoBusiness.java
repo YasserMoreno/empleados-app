@@ -12,6 +12,7 @@ import com.ez.sisemp.shared.utils.EdadUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,34 +90,44 @@ public class EmpleadoBusiness {
     }
 
     public void registrarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
-        EmpleadoEntity empleadoEntity = new EmpleadoEntity();
-        //empleadoEntity.setId(Long.parseLong(String.valueOf(empleado.id())));
-        empleadoEntity.setCodigoEmpleado(generarCodigoEmpleado());
-        empleadoEntity.setNombres(empleado.nombres());
-        empleadoEntity.setApellidoPat(empleado.apellidoPat());
-        empleadoEntity.setApellidoMat(empleado.apellidoMat());
-        empleadoEntity.setIdDepartamento(empleado.idDepartamento());
-        empleadoEntity.setCorreo(empleado.correo());
-        empleadoEntity.setSalario(empleado.salario());
-        empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
-        empleadoEntity.setActivo(1);
-        empleadoDao.registrarEmpleadoJPA(empleadoEntity);
+        try{
+            EmpleadoEntity empleadoEntity = new EmpleadoEntity();
+            empleadoEntity.setCodigoEmpleado(generarCodigoEmpleado());
+            empleadoEntity.setNombres(empleado.nombres());
+            empleadoEntity.setApellidoPat(empleado.apellidoPat());
+            empleadoEntity.setApellidoMat(empleado.apellidoMat());
+            empleadoEntity.setIdDepartamento(empleado.idDepartamento());
+            empleadoEntity.setCorreo(empleado.correo());
+            empleadoEntity.setSalario(empleado.salario());
+            empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
+            empleadoEntity.setActivo(1);
+            empleadoDao.registrarEmpleadoJPA(empleadoEntity);
+        } catch (Exception e) {
+            throw new EmailAlreadyInUseException(String.format("El correo %s ya se encuentra registrado", empleado.correo()));
+        }
+
 
     }
 
     public void editarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
 
-        EmpleadoEntity empleadoEntity = new EmpleadoEntity();
-        empleadoEntity.setId(Long.parseLong(String.valueOf(empleado.id())));
-        empleadoEntity.setCodigoEmpleado(empleado.codigoEmpleado());
-        empleadoEntity.setNombres(empleado.nombres());
-        empleadoEntity.setApellidoPat(empleado.apellidoPat());
-        empleadoEntity.setApellidoMat(empleado.apellidoMat());
-        empleadoEntity.setIdDepartamento(empleado.idDepartamento());
-        empleadoEntity.setCorreo(empleado.correo());
-        empleadoEntity.setSalario(empleado.salario());
-        empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
-        empleadoDao.editarEmpleadoJPA(empleadoEntity);
+        try{
+            EmpleadoEntity empleadoEntity = new EmpleadoEntity();
+            empleadoEntity.setId(Long.parseLong(String.valueOf(empleado.id())));
+            empleadoEntity.setCodigoEmpleado(empleado.codigoEmpleado());
+            empleadoEntity.setNombres(empleado.nombres());
+            empleadoEntity.setApellidoPat(empleado.apellidoPat());
+            empleadoEntity.setApellidoMat(empleado.apellidoMat());
+            empleadoEntity.setIdDepartamento(empleado.idDepartamento());
+            empleadoEntity.setCorreo(empleado.correo());
+            empleadoEntity.setSalario(empleado.salario());
+            empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
+            empleadoEntity.setActivo(1);
+            empleadoDao.editarEmpleadoJPA(empleadoEntity);
+        } catch (Exception e) {
+            throw new ClassNotFoundException("No se encontro al empleado");
+        }
+
     }
 
     public void eliminarEmpleadoJPA(Long id) throws SQLException, ClassNotFoundException {
