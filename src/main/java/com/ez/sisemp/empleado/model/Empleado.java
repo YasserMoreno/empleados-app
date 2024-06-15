@@ -33,6 +33,10 @@ public record Empleado(
         this(id, codigoEmpleado, nombres, apellidoPat, apellidoMat, idDepartamento, null, correo, null, salario, fechaNacimiento);
     }
 
+    public Empleado(String nombres, String apellidoPat, String apellidoMat, int idDepartamento, String correo, double salario, Date fechaNacimiento){
+        this(null, null, nombres, apellidoPat, apellidoMat, idDepartamento,null, correo, null, salario, fechaNacimiento);
+    }
+
 
     public static List<String> getHeaders() {
         return List.of("Id", "Código", "Nombres", "Apellido Paterno", "Apellido Materno", "Departamento", "Correo", "Edad", "Salario");

@@ -1,9 +1,11 @@
 package com.ez.sisemp.empleado.dao;
 
+import com.ez.sisemp.empleado.business.EmpleadoBusiness;
 import com.ez.sisemp.empleado.entity.EmpleadoEntity;
 import com.ez.sisemp.empleado.model.Empleado;
 import com.ez.sisemp.shared.config.MySQLConnection;
 import jakarta.persistence.*;
+import org.apache.logging.log4j.LogManager;
 
 
 import java.sql.Date;
@@ -11,6 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+
 
 public class EmpleadoDao{
     private static final String SQL_GET_ALL_EMPLEADOS = """
@@ -36,6 +43,7 @@ public class EmpleadoDao{
             Select  e
             from EmpleadoEntity e
             """;
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(EmpleadoDao.class);
 
     private static String SQL_SEARCH_EMPLEADO = "SELECT e FROM EmpleadoEntity e WHERE id = :id";
 
@@ -45,6 +53,10 @@ public class EmpleadoDao{
     private static String SQL_DELETE_EMPLEADO = "UPDATE empleado set activo=0 WHERE id = ?;";
     private static String SQL_INSERT_EMPLEADO = "INSERT INTO empleado (codigo_empleado, nombres, apellido_pat, apellido_mat, id_departamento, correo, fecha_nacimiento, salario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private static String SQL_GET_NEW_EMPLEADO_CODE = "SELECT CONCAT('EMP', LPAD(MAX(CAST(SUBSTRING(codigo_empleado, 4) AS UNSIGNED)) + 1, 4, '0')) AS next_emp_code FROM empleado;";
+
+    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+
+    private static final Logger logger = Logger.getLogger(EmpleadoDao.class.getName());
 
 
     //JDBC
@@ -62,10 +74,12 @@ public class EmpleadoDao{
     }
     */
 
+    /*
     public void editarEmpleado (Empleado empleado) throws SQLException, ClassNotFoundException {
         //TODO: Implementar la edición de un empleado
 
     }
+    */
 
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
         PreparedStatement preparedStatement = MySQLConnection.getConnection()
@@ -105,7 +119,6 @@ public class EmpleadoDao{
 
     public List<EmpleadoEntity> obtenerEmpleadosJPA() throws PersistenceException {
 
-        EntityManagerFactory entityManagerFactory;
         EntityManager entityManager = null;
         List<EmpleadoEntity> empleados;
 
@@ -122,7 +135,7 @@ public class EmpleadoDao{
 
     public EmpleadoEntity buscarEmpleadoJPA(Long id) throws PersistenceException {
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
+        entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try{
             return entityManager.find(EmpleadoEntity.class,id);
@@ -131,10 +144,33 @@ public class EmpleadoDao{
         }
     }
 
+    public void registrarEmpleadoJPA (EmpleadoEntity empleado) throws PersistenceException {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            entityManager.getTransaction().begin();
+            logger.info("Empleado a registrar" + empleado);
+
+            Query query = entityManager.createNativeQuery(SQL_GET_NEW_EMPLEADO_CODE);
+            String nuevoCodigo = (String) query.getSingleResult();
+            empleado.setCodigoEmpleado(nuevoCodigo);
+
+            entityManager.persist(empleado);
+            entityManager.getTransaction().commit();
+
+            logger.info("Empleado registrado correctamente: " + empleado);
+        } catch (Exception e){
+            logger.log(Level.SEVERE, "Error registrando al empleado", e);
+            System.out.println("Error registrando al empleado:" + e);
+        } finally {
+            entityManager.close();
+        }
+    }
+
     public void editarEmpleadoJPA (EmpleadoEntity empleado) throws SQLException, ClassNotFoundException {
         //TODO: Implementar la edición de un empleado
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         try{
@@ -145,5 +181,17 @@ public class EmpleadoDao{
             entityManager.close();
         }
 
+    }
+
+    public void eliminarEmpleadoJPA (Long id) throws SQLException, ClassNotFoundException {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.remove(entityManager.find(EmpleadoEntity.class, id));
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
     }
 }

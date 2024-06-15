@@ -41,10 +41,11 @@ public class EmpleadoBusiness {
         }
     }
 
+    /*
     public void editarEmpleado(Empleado empleado) throws SQLException, ClassNotFoundException {
         empleadoDao.editarEmpleado(empleado);
     }
-
+    */
 
     public void eliminarEmpleado(int id) throws SQLException, ClassNotFoundException {
         empleadoDao.eliminarEmpleado(id);
@@ -86,7 +87,30 @@ public class EmpleadoBusiness {
         return empleado;
     }
 
+    public void registrarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
+        EmpleadoEntity empleadoEntity = new EmpleadoEntity();
+        //empleadoEntity.setId(Long.parseLong(String.valueOf(empleado.id())));
+        //empleadoEntity.setCodigoEmpleado(empleado.codigoEmpleado());
+        empleadoEntity.setNombres(empleado.nombres());
+        empleadoEntity.setApellidoPat(empleado.apellidoPat());
+        empleadoEntity.setApellidoMat(empleado.apellidoMat());
+        empleadoEntity.setIdDepartamento(empleado.idDepartamento());
+        empleadoEntity.setCorreo(empleado.correo());
+        empleadoEntity.setSalario(empleado.salario());
+        empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
+        empleadoDao.registrarEmpleadoJPA(empleadoEntity);
+
+    }
+
+    public void eliminarEmpleadoJPA(Long id) throws SQLException, ClassNotFoundException {
+        empleadoDao.eliminarEmpleadoJPA(id);
+    }
+
+
+
+
     public void editarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
+
         EmpleadoEntity empleadoEntity = new EmpleadoEntity();
         empleadoEntity.setId(Long.parseLong(String.valueOf(empleado.id())));
         empleadoEntity.setCodigoEmpleado(empleado.codigoEmpleado());

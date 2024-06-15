@@ -23,30 +23,27 @@ public class UsuarioBusiness {
         return usuarioDao.login(username, password);
     }
     */
+
+
     //JPA
 
     public Usuario loginJPA(String username, String password) throws SQLException, ClassNotFoundException {
         try {
-            // Llamada al DAO para obtener la entidad UsuarioEntity
             UsuarioEntity usuarioEntity = usuarioDao.loginJPA(username, password);
 
             if (usuarioEntity == null) {
-                // Manejo cuando no se encuentra el usuario
                 throw new UserOrPassIncorrectException("Usuario o contraseña incorrectos");
             }
 
-            // Creación del objeto Usuario a partir de UsuarioEntity
             Usuario usuario = new Usuario(
                     usuarioEntity.getId(),
                     usuarioEntity.getNombreUsuario(),
-                    usuarioEntity.getContrasena(), // Aquí se debe considerar si se devuelve la contraseña en texto plano o no
+                    usuarioEntity.getContrasena(),
                     usuarioEntity.getPrimerNombre(),
                     usuarioEntity.getApellidoPat(),
                     usuarioEntity.getFotoPerfil(),
                     usuarioEntity.getIdRol()
             );
-
-            // Realizar validaciones adicionales si es necesario
 
             return usuario;
         } catch (PersistenceException e) {

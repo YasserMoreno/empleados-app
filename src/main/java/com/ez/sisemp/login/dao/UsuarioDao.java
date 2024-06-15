@@ -73,15 +73,8 @@ public class UsuarioDao {
             } else {
                 throw new UserOrPassIncorrectException("Usuario o contraseña incorrectos");
             }
-        } catch (Exception e) {
-            if (entityManager != null && entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw new UserOrPassIncorrectException("Error en la autenticación JPA: " + e);
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            entityManager.close();
         }
     }
 
