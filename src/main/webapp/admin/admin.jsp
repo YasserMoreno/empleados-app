@@ -68,7 +68,10 @@
                                 Hola! ${sessionScope.user.primerNombre()}
                             </span>
                             <img class="img-profile rounded-circle" src=${sessionScope.user.fotoPerfilBase64()} style="width:65" alt="profile photo">
-
+                            <form action="admin" method="post" style="display:inline;">
+                                <input type="hidden" name="action" value="logout">
+                                <input type="submit" value="Cerrar Sesión" style="background:none;border:none;color:blue;">
+                            </form>
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
