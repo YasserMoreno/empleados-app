@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.Date;
+
 @Entity
 @Table(name ="usuario")
 public class UsuarioEntity {
@@ -13,6 +15,10 @@ public class UsuarioEntity {
     @Column(name = "nombre_usuario")
     String nombreUsuario;
     String contrasena;
+    @Column(name = "contrasena_anterior")
+    String contrasenaAnterior;
+    @Column(name = "ultima_conexion")
+    Date ultimaConexion;
     Integer active;
     @Column(name = "primer_nombre")
     String primerNombre;
@@ -22,6 +28,22 @@ public class UsuarioEntity {
     String fotoPerfil;
     @Column(name = "id_rol")
     Integer idRol;
+
+    public String getContrasenaAnterior() {
+        return contrasenaAnterior;
+    }
+
+    public void setContrasenaAnterior(String contrasenaAnterior) {
+        this.contrasenaAnterior = contrasenaAnterior;
+    }
+
+    public Date getUltimaConexion() {
+        return ultimaConexion;
+    }
+
+    public void setUltimaConexion(Date ultimaConexion) {
+        this.ultimaConexion = ultimaConexion;
+    }
 
     public Integer getActive() {
         return active;

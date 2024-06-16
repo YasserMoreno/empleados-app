@@ -1,7 +1,12 @@
 package com.ez.sisemp.admin.dao;
 
 import com.ez.sisemp.admin.model.Usuario;
+import com.ez.sisemp.login.entity.UsuarioEntity;
 import com.ez.sisemp.shared.config.MySQLConnection;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +17,9 @@ import java.util.List;
 public class AdminDao {
 
     private static final String GET_ALL_USERS = "SELECT * FROM usuario";
+    private static final String JPQL_GET_ALL_USERS = "SELECT u FROM UsuarioEntity u";
+
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
 
     public List<Usuario> obtenerUsuarios() throws SQLException, ClassNotFoundException {
         List<Usuario> usuarios = new ArrayList<>();
@@ -45,6 +53,24 @@ public class AdminDao {
             rs.getString("foto_perfil"),
             rolDescripcion
         );
+    }
+
+    //JPA
+
+    public List<UsuarioEntity> obtenerUsuariosJPA() throws SQLException, ClassNotFoundException {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            entityManager.getTransaction().begin();
+            Query query = entityManager.createQuery(JPQL_GET_ALL_USERS);
+            var usuarios = query.getResultList();
+            entityManager.getTransaction().commit();
+            return usuarios;
+        } finally {
+            entityManager.close();
+        }
+
     }
 
 
