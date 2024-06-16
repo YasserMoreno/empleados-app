@@ -149,7 +149,7 @@ public class EmpleadoDashboardDao {
 
             entityManager.getTransaction().begin();
             ParametroDao parametroDao = new ParametroDao();
-            var departametos = parametroDao.obtenerDepartamentos();
+            var departametos = parametroDao.obtenerDepartamentosJPA();
             int totalDepartamentos = departametos.size();
             entityManager.getTransaction().commit();
             return totalDepartamentos;
