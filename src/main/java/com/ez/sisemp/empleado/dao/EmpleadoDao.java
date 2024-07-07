@@ -44,6 +44,21 @@ public class EmpleadoDao{
             from EmpleadoEntity e
             where e.activo = 1
             """;
+
+
+    private static final String SQL_FIND_EMPLEADO_CORREO_JQPL = """
+        Select e
+        from EmpleadoEntity e
+        where e.correo = :correo
+        and e.activo = 1
+        """;
+
+    private static final String SQL_FIND_EMPLEADO_CORREO_ALL_JQPL = """
+        Select e
+        from EmpleadoEntity e
+        where e.correo = :correo
+        """;
+
     private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(EmpleadoDao.class);
 
     //JDBC
@@ -142,6 +157,40 @@ public class EmpleadoDao{
         }
     }
 
+    public EmpleadoEntity buscarEmpleadoCorreoJPA(String correo) throws PersistenceException {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            Query query = entityManager.createQuery(SQL_FIND_EMPLEADO_CORREO_JQPL, EmpleadoEntity.class);
+            query.setParameter("correo", correo);
+            EmpleadoEntity empleado = (EmpleadoEntity) query.getSingleResult();
+            return empleado;
+        } catch (NoResultException e) {
+            return null;
+        }
+        finally {
+            entityManager.close();
+        }
+    }
+
+    public EmpleadoEntity buscarEmpleadoCorreoAllJPA(String correo) throws PersistenceException {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            Query query = entityManager.createQuery(SQL_FIND_EMPLEADO_CORREO_ALL_JQPL, EmpleadoEntity.class);
+            query.setParameter("correo", correo);
+            EmpleadoEntity empleado = (EmpleadoEntity) query.getSingleResult();
+            return empleado;
+        } catch (NoResultException e) {
+            return null;
+        }
+        finally {
+            entityManager.close();
+        }
+    }
+
     public void registrarEmpleadoJPA (EmpleadoEntity empleado) throws PersistenceException {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -178,6 +227,19 @@ public class EmpleadoDao{
             var empleado = entityManager.find(EmpleadoEntity.class, id);
             empleado.setActivo(0);
             entityManager.merge(empleado);
+            entityManager.getTransaction().commit();
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public void eliminarEmpleadoFisicaJPA (Long id) throws SQLException, ClassNotFoundException {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try{
+            entityManager.getTransaction().begin();
+            var empleado = entityManager.find(EmpleadoEntity.class, id);
+            entityManager.remove(empleado);
             entityManager.getTransaction().commit();
         } finally {
             entityManager.close();

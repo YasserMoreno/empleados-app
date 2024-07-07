@@ -18,6 +18,11 @@
 
     <!-- Custom styles for this template-->
     <link href="../styles/dashboard.min.css" rel="stylesheet">
+    <style>
+        a:hover{
+            text-decoration: none !important;
+        }
+    </style>
 </head>
 <body id="page-top">
 
@@ -27,7 +32,7 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/empleado">
             <div class="sidebar-brand-text mx-3">Sistema Empleados</div>
         </a>
         <!-- Divider -->
@@ -44,7 +49,7 @@
             <!--<form action ="registrar" method="get">
                 <input type="submit" value="Registrar Empleado" style="background:none;border:none;color:white;font-size: 1rem;font-weight: 400;line-height: 1.5">
             </form>-->
-            <a class="nav-link" href="/empleado/registrar" style="background:none;border:none;color:white;font-size: 1rem;font-weight: 400;line-height: 1.5">
+            <a class="bar-link" href="/empleado/registrar" style="background: none; border: none; color: white; font-size: 1rem; font-weight: 400; line-height: 4; padding-left: 7px;">
                 <span>Registrar Empleado</span>
             </a>
         </li>
@@ -54,7 +59,7 @@
             </form>
         </li>
         <li class="nav-item">
-            <form action ="exportar-excel" method="post">
+            <form action ="/empleado/exportar-excel" method="post">
                 <input type="submit" value="Exportar a Excel" style="background:none;border:none;color:white;font-size: 1rem;font-weight: 400;line-height: 1.5">
             </form>
         </li>

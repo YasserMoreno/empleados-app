@@ -16,6 +16,7 @@ public record Empleado(
         Integer edad,
         double salario,
         Date fechaNacimiento
+
 ) implements Serializable {
 
     public Empleado(Integer id,String codigoEmpleado, String nombres, String apellidoPat, String apellidoMat, String departamento, String correo, int edad, double salario) {

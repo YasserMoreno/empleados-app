@@ -21,6 +21,8 @@ public class AdminDao {
 
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("devUnit");
 
+    //JDBC
+    /*
     public List<Usuario> obtenerUsuarios() throws SQLException, ClassNotFoundException {
         List<Usuario> usuarios = new ArrayList<>();
         Statement stp = MySQLConnection.getConnection().createStatement();
@@ -54,6 +56,7 @@ public class AdminDao {
             rolDescripcion
         );
     }
+     */
 
     //JPA
 

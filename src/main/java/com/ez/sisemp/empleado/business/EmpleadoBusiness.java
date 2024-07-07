@@ -89,18 +89,36 @@ public class EmpleadoBusiness {
         return empleado;
     }
 
-    public void registrarEmpleadoJPA(Empleado empleado) throws SQLException, ClassNotFoundException {
+    public Empleado buscarEmpleadoPorCorreoJPA(String correo) {
+        var empleadoEntiy = empleadoDao.buscarEmpleadoCorreoJPA(correo);
+        if(empleadoEntiy == null){
+            return null;
+        }
+        Empleado empleado = mapToRecord(empleadoEntiy);
+        return empleado;
+    }
+
+    public Empleado buscarEmpleadoPorCorreoAllJPA(String correo) {
+        var empleadoEntiy = empleadoDao.buscarEmpleadoCorreoAllJPA(correo);
+        if(empleadoEntiy == null){
+            return null;
+        }
+        Empleado empleado = mapToRecord(empleadoEntiy);
+        return empleado;
+    }
+
+    public void registrarEmpleadoJPA(Empleado empleado) {
         try{
             EmpleadoEntity empleadoEntity = new EmpleadoEntity();
-            empleadoEntity.setCodigoEmpleado(generarCodigoEmpleado());
-            empleadoEntity.setNombres(empleado.nombres());
-            empleadoEntity.setApellidoPat(empleado.apellidoPat());
-            empleadoEntity.setApellidoMat(empleado.apellidoMat());
-            empleadoEntity.setIdDepartamento(empleado.idDepartamento());
-            empleadoEntity.setCorreo(empleado.correo());
-            empleadoEntity.setSalario(empleado.salario());
-            empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
-            empleadoEntity.setActivo(1);
+                empleadoEntity.setCodigoEmpleado(generarCodigoEmpleado());
+                empleadoEntity.setNombres(empleado.nombres());
+                empleadoEntity.setApellidoPat(empleado.apellidoPat());
+                empleadoEntity.setApellidoMat(empleado.apellidoMat());
+                empleadoEntity.setIdDepartamento(empleado.idDepartamento());
+                empleadoEntity.setCorreo(empleado.correo());
+                empleadoEntity.setSalario(empleado.salario());
+                empleadoEntity.setFechaNacimiento(empleado.fechaNacimiento());
+                empleadoEntity.setActivo(1);
             empleadoDao.registrarEmpleadoJPA(empleadoEntity);
         } catch (Exception e) {
             throw new EmailAlreadyInUseException(String.format("El correo %s ya se encuentra registrado", empleado.correo()));
@@ -132,6 +150,10 @@ public class EmpleadoBusiness {
 
     public void eliminarEmpleadoJPA(Long id) throws SQLException, ClassNotFoundException {
         empleadoDao.eliminarEmpleadoJPA(id);
+    }
+
+    public void eliminarEmpleadoFisicaJPA(Long id) throws SQLException, ClassNotFoundException {
+        empleadoDao.eliminarEmpleadoFisicaJPA(id);
     }
 
 

@@ -103,8 +103,7 @@ public class EmpleadoDashboardDao {
             for(EmpleadoEntity empleado : empleados){
                 LocalDate fechaNacimiento = convertToLocalDateViaInstant(empleado.getFechaNacimiento());
                 int edad = LocalDate.now().getYear() - fechaNacimiento.getYear();
-                var edadEmpleado = Integer.parseInt(String.valueOf(edad));
-                totalEdad += edadEmpleado;
+                totalEdad += edad;
             }
 
             int promedioEdad = (numeroEmpleados > 0) ? totalEdad / numeroEmpleados : 0;
